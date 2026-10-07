@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.psdc.example/agent/consumer-manifest.schema.json",
+  "title": "PSDC repository skill adoption",
+  "type": "object",
+  "required": ["schemaVersion", "repository", "skillPack", "enabledSkills", "entrypoints", "boundary"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "repository": {
+      "type": "object",
+      "required": ["id", "authority", "context", "lifecycle"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]+$" },
+        "authority": { "enum": ["common", "institution"] },
+        "context": { "type": "string", "minLength": 3 },
+        "lifecycle": { "enum": ["specification", "implementation", "deployment", "production"] }
+      },
+      "additionalProperties": false
+    },
+    "skillPack": {
+      "type": "object",
+      "required": ["repository", "revision", "registry", "policy"],
+      "properties": {
+        "repository": { "const": "https://github.com/Post-Secondary-Digital-Commons/psdc-agent-skills" },
+        "revision": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+        "registry": { "const": "config/skill-registry.yaml" },
+        "policy": { "const": "docs/governance/AUTHORITY-AND-EVIDENCE.md" }
+      },
+      "additionalProperties": false
+    },
+    "enabledSkills": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "entrypoints": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "boundary": {
+      "type": "object",
+      "required": ["changeScope", "decisionAuthority", "contractAuthority"],
+      "properties": {
+        "changeScope": { "const": "this-repository" },
+        "decisionAuthority": { "const": "psdc-architecture" },
+        "contractAuthority": { "const": "psdc-architecture" },
+        "institutionPolicyAuthority": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

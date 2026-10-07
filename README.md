@@ -44,3 +44,7 @@ The vendored files are pinned to `mattpocock/skills` commit
 2. Inspect [`config/skill-registry.yaml`](config/skill-registry.yaml).
 3. Use `psdc-project-assessment` for a bounded project review.
 4. Validate the repository with `scripts/Test-AgentSkills.ps1`.
+
+Consuming repositories pin this pack through `.psdc/agent-skills.yaml`.
+The schema, validator, and adoption boundary are documented in
+[`docs/governance/CONSUMER-MANIFEST.md`](docs/governance/CONSUMER-MANIFEST.md).

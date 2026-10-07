@@ -1,0 +1,24 @@
+schemaVersion: 1
+repository:
+  id: psdc-agent-skills
+  authority: common
+  context: governed_agent_skills
+  lifecycle: specification
+skillPack:
+  repository: https://github.com/Post-Secondary-Digital-Commons/psdc-agent-skills
+  revision: 45386cb2f1ccdd61a42100462325c1c3006f7f8a
+  registry: config/skill-registry.yaml
+  policy: docs/governance/AUTHORITY-AND-EVIDENCE.md
+enabledSkills:
+  - psdc-project-assessment
+  - psdc-evidence-audit
+  - domain-modeling
+  - writing-for-agents
+entrypoints:
+  - README.md
+  - AGENTS.md
+  - GLOSSARY.md
+boundary:
+  changeScope: this-repository
+  decisionAuthority: psdc-architecture
+  contractAuthority: psdc-architecture

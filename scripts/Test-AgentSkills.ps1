@@ -5,15 +5,23 @@ $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $PSScriptRoot
 $registry = Join-Path $root 'config/skill-registry.yaml'
 $schema = Join-Path $root 'schemas/assessment-result.schema.json'
+$consumerSchema = Join-Path $root 'schemas/consumer-manifest.schema.json'
+$consumerValidator = Join-Path $root 'scripts/Validate-Consumer.py'
 $manifest = Join-Path $root 'config/upstream-files.sha256'
 
 if (-not (Test-Path -LiteralPath $registry)) { throw "Missing registry: $registry" }
 if (-not (Test-Path -LiteralPath $schema)) { throw "Missing schema: $schema" }
+if (-not (Test-Path -LiteralPath $consumerSchema)) { throw "Missing consumer schema: $consumerSchema" }
+if (-not (Test-Path -LiteralPath $consumerValidator)) { throw "Missing consumer validator: $consumerValidator" }
 if (-not (Test-Path -LiteralPath $manifest)) { throw "Missing upstream manifest: $manifest" }
 
 $json = Get-Content -LiteralPath $schema -Raw | ConvertFrom-Json
+$consumerJson = Get-Content -LiteralPath $consumerSchema -Raw | ConvertFrom-Json
 if ($json.'$schema' -ne 'https://json-schema.org/draft/2020-12/schema') {
     throw 'Assessment schema must use JSON Schema 2020-12.'
+}
+if ($consumerJson.'$schema' -ne 'https://json-schema.org/draft/2020-12/schema') {
+    throw 'Consumer schema must use JSON Schema 2020-12.'
 }
 
 $registryText = Get-Content -LiteralPath $registry -Raw
