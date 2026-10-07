@@ -1,0 +1,7 @@
+* text=auto
+vendor/** text eol=lf
+config/upstream-files.sha256 text eol=lf
+*.json text eol=lf
+*.yaml text eol=lf
+*.md text eol=lf
+*.ps1 text eol=crlf
