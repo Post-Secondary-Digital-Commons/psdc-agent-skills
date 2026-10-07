@@ -23,7 +23,8 @@ python scripts/Validate-Consumer.py C:\path\to\repository\.psdc\agent-skills.yam
 ```
 
 The validator checks the schema, enabled-skill registry, repository identity,
-and local entrypoint paths. A pass proves manifest structure and referenced
+and local entrypoint paths. Repository identity comes from the `origin` Git
+remote so independent worktree directory names are allowed. A pass proves manifest structure and referenced
 files; it does not prove that an agent obeyed the skills or that any product
 service runs.
 
