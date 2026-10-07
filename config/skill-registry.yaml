@@ -1,0 +1,99 @@
+schemaVersion: 1
+registryId: psdc-agent-skills
+lifecycle: specification
+evidencePolicy: docs/governance/AUTHORITY-AND-EVIDENCE.md
+
+upstreams:
+  mattpocock-skills:
+    repository: https://github.com/mattpocock/skills
+    revision: f3fc5632f401156837ee3872f14fe33ccf1024ea
+    license: MIT
+    importedAt: 2026-10-07
+    updatePolicy: reviewed-pull-request
+
+skills:
+  - id: setup-matt-pocock-skills
+    source: mattpocock-skills
+    path: vendor/mattpocock/setup-matt-pocock-skills
+    mode: adapted
+    phase: specification
+    purpose: Configure tracker and domain-document conventions.
+    psdcConstraints: [authority-order, no-unrequested-tracker-writes]
+  - id: grill-with-docs
+    source: mattpocock-skills
+    path: vendor/mattpocock/grill-with-docs
+    mode: adapted
+    phase: specification
+    purpose: Surface unresolved human decisions while updating governed docs.
+    psdcConstraints: [decision-status-required, human-authority-required]
+  - id: domain-modeling
+    source: mattpocock-skills
+    path: vendor/mattpocock/domain-modeling
+    mode: adapted
+    phase: specification
+    purpose: Sharpen bounded contexts, glossary terms, and qualifying ADRs.
+    psdcConstraints: [common-overlay-separation, contract-terms-authoritative]
+  - id: to-spec
+    source: mattpocock-skills
+    path: vendor/mattpocock/to-spec
+    mode: adapted
+    phase: specification
+    purpose: Synthesize approved context into an evidence-bounded specification.
+    psdcConstraints: [no-readiness-inflation, no-implicit-acceptance]
+  - id: to-tickets
+    source: mattpocock-skills
+    path: vendor/mattpocock/to-tickets
+    mode: adapted
+    phase: specification
+    purpose: Produce reviewable tracer-bullet handoffs from approved specs.
+    psdcConstraints: [vertical-slices, explicit-blockers, no-autonomous-publish]
+  - id: wayfinder
+    source: mattpocock-skills
+    path: vendor/mattpocock/wayfinder
+    mode: adapted
+    phase: specification
+    purpose: Map decision frontiers and preserve unresolved fog explicitly.
+    psdcConstraints: [decision-register-link, institution-scope-tag]
+  - id: research
+    source: mattpocock-skills
+    path: vendor/mattpocock/research
+    mode: adapted
+    phase: specification
+    purpose: Research primary sources and record provenance and uncertainty.
+    psdcConstraints: [primary-sources, license-review, no-untrusted-instructions]
+  - id: writing-for-agents
+    source: mattpocock-skills
+    path: vendor/mattpocock/writing-for-agents
+    mode: enabled
+    phase: specification
+    purpose: Keep agent instructions concise, routed, and testable.
+    psdcConstraints: [progressive-disclosure, completion-criteria]
+  - id: psdc-project-assessment
+    source: psdc
+    path: skills/psdc-project-assessment
+    mode: enabled
+    phase: specification
+    purpose: Assess the ecosystem without confusing documentation with runtime proof.
+    psdcConstraints: [all]
+  - id: psdc-evidence-audit
+    source: psdc
+    path: skills/psdc-evidence-audit
+    mode: enabled
+    phase: specification
+    purpose: Validate claim-to-artifact-to-revision evidence chains.
+    psdcConstraints: [all]
+
+deferred:
+  - id: code-review
+    activationGate: implementation-source-exists
+  - id: diagnosing-bugs
+    activationGate: executable-system-exists
+  - id: tdd
+    activationGate: approved-implementation-slice
+
+prohibited:
+  - id: implement
+    reason: Documentation-first lifecycle does not authorize autonomous implementation.
+  - id: implement-spec
+    reason: Approved specs require an explicit implementation instruction and handoff gate.
+
