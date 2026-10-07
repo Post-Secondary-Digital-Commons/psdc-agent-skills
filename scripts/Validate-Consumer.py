@@ -5,7 +5,9 @@ from __future__ import annotations
 
 import argparse
 import json
+import subprocess
 from pathlib import Path
+from urllib.parse import urlparse
 
 import jsonschema
 import yaml
@@ -35,8 +37,17 @@ def main() -> int:
             raise ValueError(f"{manifest_path}: entrypoint must stay within this repository: {entrypoint}")
         if not (consumer_root / relative).is_file():
             raise ValueError(f"{manifest_path}: entrypoint does not exist: {entrypoint}")
-    if consumer_root.name != manifest["repository"]["id"]:
-        raise ValueError(f"{manifest_path}: repository id differs from checkout directory name")
+    remote = subprocess.run(
+        ["git", "-C", str(consumer_root), "remote", "get-url", "origin"],
+        text=True, capture_output=True, check=False,
+    )
+    if remote.returncode != 0:
+        raise ValueError(f"{manifest_path}: origin remote is required to verify repository identity")
+    remote_url = remote.stdout.strip()
+    remote_path = urlparse(remote_url).path if "://" in remote_url else remote_url.split(":", 1)[-1]
+    remote_id = remote_path.rstrip("/").rsplit("/", 1)[-1].removesuffix(".git")
+    if remote_id != manifest["repository"]["id"]:
+        raise ValueError(f"{manifest_path}: repository id {manifest['repository']['id']} differs from origin {remote_id}")
     print(f"Validated {manifest['repository']['id']} ({len(manifest['enabledSkills'])} skills)")
     return 0
 
