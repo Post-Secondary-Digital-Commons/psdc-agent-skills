@@ -28,7 +28,7 @@ $registryText = Get-Content -LiteralPath $registry -Raw
 $requiredSkills = @(
     'setup-matt-pocock-skills', 'grill-with-docs', 'domain-modeling', 'to-spec',
     'to-tickets', 'wayfinder', 'research', 'writing-for-agents',
-    'psdc-project-assessment', 'psdc-evidence-audit'
+    'psdc-project-assessment', 'psdc-evidence-audit', 'psdc-upstream-adoption'
 )
 foreach ($skill in $requiredSkills) {
     if ($registryText -notmatch [regex]::Escape("id: $skill")) {
@@ -49,5 +49,10 @@ foreach ($line in Get-Content -LiteralPath $manifest) {
     $actual = (Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash.ToLowerInvariant()
     if ($actual -ne $parts[0]) { throw "Vendored file differs from manifest: $($parts[1])" }
 }
+
+python (Join-Path $root 'scripts/Validate-SkillRegistry.py')
+if ($LASTEXITCODE -ne 0) { throw 'Skill registry validation failed.' }
+python (Join-Path $root 'scripts/Validate-Adoption.py') --self-test
+if ($LASTEXITCODE -ne 0) { throw 'Upstream adoption record self-test failed.' }
 
 Write-Host "Agent skill structural checks passed ($($requiredSkills.Count) registered skills)."

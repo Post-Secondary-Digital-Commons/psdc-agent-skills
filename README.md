@@ -12,6 +12,11 @@ it is not evidence that any PSDC runtime service exists.
   privacy, federation, and readiness rules.
 - `config/skill-registry.yaml`: machine-readable enablement, provenance, and
   phase policy.
+- [`docs/governance/COMPLETE-SKILL-INVENTORY.md`](docs/governance/COMPLETE-SKILL-INVENTORY.md):
+  every upstream skill at the pinned commit, including twelve deliberately not added.
+- `skills/psdc-upstream-adoption/`: component-level reuse decisions and a
+  lightweight implementation-delta check; records use
+  `schemas/upstream-adoption-record.schema.json`.
 - `docs/`: scope, threat model, adoption rules, and assessment records.
 - `schemas/`: validation contracts for the registry and assessment results.
 

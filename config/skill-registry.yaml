@@ -10,6 +10,7 @@ upstreams:
     license: MIT
     importedAt: 2026-10-07
     updatePolicy: reviewed-pull-request
+    expectedSkillCount: 38
 
 skills:
   - id: setup-matt-pocock-skills
@@ -68,6 +69,90 @@ skills:
     phase: specification
     purpose: Keep agent instructions concise, routed, and testable.
     psdcConstraints: [progressive-disclosure, completion-criteria]
+  - id: code-review
+    source: mattpocock-skills
+    path: vendor/mattpocock/code-review
+    mode: adapted
+    phase: review
+    purpose: Review a bounded diff against both repository standards and its originating contract or specification.
+    psdcConstraints: [contract-authority, evidence-not-confidence, no-implicit-merge]
+  - id: codebase-design
+    source: mattpocock-skills
+    path: vendor/mattpocock/codebase-design
+    mode: adapted
+    phase: design
+    purpose: Keep repository modules deep and interfaces narrow without duplicating cross-repository authority.
+    psdcConstraints: [contract-boundaries, no-semantic-clones]
+  - id: improve-codebase-architecture
+    source: mattpocock-skills
+    path: vendor/mattpocock/improve-codebase-architecture
+    mode: adapted
+    phase: review
+    purpose: Identify measured or evidenced module-boundary improvements in implemented code.
+    psdcConstraints: [no-unrequested-refactor, contract-boundaries]
+  - id: pr
+    source: mattpocock-skills
+    path: vendor/mattpocock/pr
+    mode: adapted
+    phase: review
+    purpose: Describe PR evidence, compatibility, blast radius, and rollback honestly.
+    psdcConstraints: [no-readiness-inflation, no-implicit-merge]
+  - id: prototype
+    source: mattpocock-skills
+    path: vendor/mattpocock/prototype
+    mode: adapted
+    phase: research
+    purpose: Test uncertain logic or UX with an explicitly disposable, synthetic spike.
+    psdcConstraints: [not-production-evidence, synthetic-data-only]
+  - id: retro
+    source: mattpocock-skills
+    path: vendor/mattpocock/retro
+    mode: adapted
+    phase: review
+    purpose: Identify bounded improvements to agent navigation, checks, and engineering feedback.
+    psdcConstraints: [no-unrequested-policy-change]
+  - id: grill-me
+    source: mattpocock-skills
+    path: vendor/mattpocock/grill-me
+    mode: adapted
+    phase: specification
+    purpose: Explore a user-requested idea without changing governed documents unless separately authorized.
+    psdcConstraints: [human-authority-required]
+  - id: grilling
+    source: mattpocock-skills
+    path: vendor/mattpocock/grilling
+    mode: adapted
+    phase: specification
+    purpose: Reuse the interview mechanics behind unresolved decision discovery.
+    psdcConstraints: [no-implicit-acceptance]
+  - id: handoff
+    source: mattpocock-skills
+    path: vendor/mattpocock/handoff
+    mode: adapted
+    phase: review
+    purpose: Preserve exact revisions, evidence, ownership, and next actions across agent or maintainer handoffs.
+    psdcConstraints: [authority-links, evidence-state-required]
+  - id: teach
+    source: mattpocock-skills
+    path: vendor/mattpocock/teach
+    mode: adapted
+    phase: education
+    purpose: Develop club-member understanding without turning lessons into normative system decisions.
+    psdcConstraints: [no-authority-transfer]
+  - id: to-questionnaire
+    source: mattpocock-skills
+    path: vendor/mattpocock/to-questionnaire
+    mode: adapted
+    phase: governance
+    purpose: Collect institution, legal, and operator decisions from the people who own them.
+    psdcConstraints: [human-authority-required, no-unrequested-messages]
+  - id: wait-what
+    source: mattpocock-skills
+    path: vendor/mattpocock/wait-what
+    mode: adapted
+    phase: education
+    purpose: Restate confusing system explanations with the PSDC glossary and correct prerequisites.
+    psdcConstraints: [glossary-terms-authoritative]
   - id: psdc-project-assessment
     source: psdc
     path: skills/psdc-project-assessment
@@ -82,18 +167,46 @@ skills:
     phase: specification
     purpose: Validate claim-to-artifact-to-revision evidence chains.
     psdcConstraints: [all]
+  - id: psdc-upstream-adoption
+    source: psdc
+    path: skills/psdc-upstream-adoption
+    mode: enabled
+    phase: all
+    purpose: Record reuse-versus-build decisions for every component and implementation delta.
+    psdcConstraints: [upstream-provenance, license-gates, sovereign-authority, evidence-boundaries]
 
 deferred:
-  - id: code-review
-    activationGate: implementation-source-exists
+  - id: ask-matt
+    path: vendor/mattpocock/ask-matt
+    activationGate: PSDC router must exclude gated implementation and external-write flows
+  - id: triage
+    path: vendor/mattpocock/triage
+    activationGate: explicit issue-tracker mutation authority and PSDC issue-state mapping
   - id: diagnosing-bugs
+    path: vendor/mattpocock/diagnosing-bugs
     activationGate: executable-system-exists
   - id: tdd
+    path: vendor/mattpocock/tdd
     activationGate: approved-implementation-slice
 
 prohibited:
   - id: implement
+    path: vendor/mattpocock/implement
     reason: Documentation-first lifecycle does not authorize autonomous implementation.
   - id: implement-spec
+    path: vendor/mattpocock/implement-spec
     reason: Approved specs require an explicit implementation instruction and handoff gate.
 
+notAdded:
+  - { id: wizard, group: engineering, reason: "Credential and GitHub-secret writing needs a separate Windows and institution security review." }
+  - { id: chief-of-staff, group: in-progress, reason: "Experimental long-running subagent orchestration." }
+  - { id: claude-handoff, group: in-progress, reason: "Claude-specific agent handoff; not portable common behavior." }
+  - { id: loop-me, group: in-progress, reason: "Experimental workflow interview overlaps governed specification skills." }
+  - { id: setup-ts-deep-modules, group: in-progress, reason: "Experimental and TypeScript-specific; assess in a client repo." }
+  - { id: writing-beats, group: in-progress, reason: "Editorial composition outside component engineering." }
+  - { id: writing-fragments, group: in-progress, reason: "Editorial composition outside component engineering." }
+  - { id: writing-shape, group: in-progress, reason: "Editorial composition outside component engineering." }
+  - { id: git-guardrails-claude-code, group: misc, reason: "Claude Code hooks belong in an agent-specific overlay." }
+  - { id: migrate-to-shoehorn, group: misc, reason: "A specific TypeScript test-helper migration not selected by PSDC." }
+  - { id: scaffold-exercises, group: misc, reason: "Assumes AI Hero course tooling rather than PSDC club-lab tooling." }
+  - { id: setup-pre-commit, group: misc, reason: "Husky and lint-staged are not a universal Go, Python and TypeScript repository rule." }
