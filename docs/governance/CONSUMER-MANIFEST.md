@@ -14,6 +14,14 @@ scope, common decision and contract authority, and institution policy authority
 when applicable. This keeps one common skill implementation while allowing
 each institution to own its policy bindings.
 
+The [complete skill inventory](COMPLETE-SKILL-INVENTORY.md) distinguishes skills
+that are vendored, permitted by the pack, enabled by a consumer, gated, or not
+added. Adding a skill to the common pack does not silently change a consuming
+repository's manifest. Consumers should enable `psdc-upstream-adoption` when
+they begin component selection or implementation work, then retain a review
+record in the component-owning repository. A passing adoption-record schema
+check is structural evidence, not acceptance of the selected upstream.
+
 ## Validation
 
 From the skill-pack repository:
