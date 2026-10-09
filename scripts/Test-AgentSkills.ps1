@@ -54,5 +54,7 @@ python (Join-Path $root 'scripts/Validate-SkillRegistry.py')
 if ($LASTEXITCODE -ne 0) { throw 'Skill registry validation failed.' }
 python (Join-Path $root 'scripts/Validate-Adoption.py') --self-test
 if ($LASTEXITCODE -ne 0) { throw 'Upstream adoption record self-test failed.' }
+python (Join-Path $root 'scripts/Build-ApplicationScope.py') --check
+if ($LASTEXITCODE -ne 0) { throw 'Skill application scope check failed.' }
 
 Write-Host "Agent skill structural checks passed ($($requiredSkills.Count) registered skills)."
