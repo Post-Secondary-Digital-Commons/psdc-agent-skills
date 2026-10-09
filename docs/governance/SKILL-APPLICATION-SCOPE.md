@@ -14,7 +14,7 @@ sets current pack-wide modes; the [inventory](COMPLETE-SKILL-INVENTORY.md)
 explains every skill. An older consumer pin is **not** validated against newer rules.
 
 Workspace catalog revision: `123cfa62b98b4add00330d7cd1ad260d3eecf517`. Pack revision
-inspected when generated: `473b78e1c3db9814a19c3d4796fda44e818865ec`. Source manifests and commits
+inspected when generated: `d527cbeda07fac579f9088197b71f785f082acc4`. Source manifests and commits
 are recorded in `config/application-scope-snapshot.json`.
 **21 of 21** consumer pins differ from that pack revision;
 this map does not silently upgrade them.
@@ -59,7 +59,7 @@ this map does not silently upgrade them.
 | `algonquin-mobile` | `6f024b2d2032` | `dc7baf75ecad (older/different)` | `psdc-project-assessment`, `psdc-evidence-audit`, `domain-modeling`, `to-spec`, `writing-for-agents` |
 | `psdc-deployment-template` | `6e1f52a2f4cf` | `dc7baf75ecad (older/different)` | `psdc-project-assessment`, `psdc-evidence-audit`, `to-spec`, `research`, `writing-for-agents` |
 | `algonquin-deployment` | `278377f97ca2` | `dc7baf75ecad (older/different)` | `psdc-project-assessment`, `psdc-evidence-audit`, `domain-modeling`, `to-spec`, `writing-for-agents` |
-| `psdc-agent-skills` | `473b78e1c3db` | `45386cb2f1cc (older/different)` | `psdc-project-assessment`, `psdc-evidence-audit`, `domain-modeling`, `writing-for-agents` |
+| `psdc-agent-skills` | `d527cbeda07f` | `45386cb2f1cc (older/different)` | `psdc-project-assessment`, `psdc-evidence-audit`, `domain-modeling`, `writing-for-agents` |
 
 ## Task selection and completion
 
@@ -83,4 +83,6 @@ python scripts/Build-ApplicationScope.py --check --workspace-root C:\path\to\psd
 
 `--check` without a workspace verifies the committed snapshot against the registry
 and generated document. With a workspace it additionally detects source drift.
+A new skill-pack commit alone is ignored when its consumer manifest digest is unchanged;
+a changed manifest still fails the check.
 Neither mode tests actual agent behavior or product readiness.

@@ -121,6 +121,18 @@ def validate_snapshot(snapshot: dict, scope: dict, registry: dict) -> None:
             raise ValueError(f"Invalid manifest digest in {record['id']}")
 
 
+def same_sources(current: dict, committed: dict) -> bool:
+    """Ignore only a self-repo commit bump with identical consumer manifest."""
+    current = copy.deepcopy(current)
+    original = {record["id"]: record for record in committed["repositories"]}
+    for record in current["repositories"]:
+        if record["id"] == "psdc-agent-skills" and record["id"] in original:
+            prior = original[record["id"]]
+            if record["manifestSha256"] == prior["manifestSha256"]:
+                record["revision"] = prior["revision"]
+    return current == committed
+
+
 def self_test() -> None:
     scope, registry = read_policy()
     bad_scope = copy.deepcopy(scope)
@@ -141,6 +153,19 @@ def self_test() -> None:
         pass
     else:
         raise AssertionError("Duplicate repository identity was accepted")
+    bumped = copy.deepcopy(snapshot)
+    self_record = next(record for record in bumped["repositories"]
+                       if record["id"] == "psdc-agent-skills")
+    self_record["revision"] = "a" * 40
+    if not same_sources(bumped, snapshot):
+        raise AssertionError("Unchanged self manifest did not tolerate merge commit")
+    self_record["manifestSha256"] = "b" * 64
+    if same_sources(bumped, snapshot):
+        raise AssertionError("Changed self manifest was accepted as unchanged")
+    other_bump = copy.deepcopy(snapshot)
+    other_bump["repositories"][0]["revision"] = "a" * 40
+    if same_sources(other_bump, snapshot):
+        raise AssertionError("Another repository's changed commit was accepted")
 
 
 def render(snapshot: dict, scope: dict) -> str:
@@ -209,6 +234,8 @@ def render(snapshot: dict, scope: dict) -> str:
         "```", "",
         "`--check` without a workspace verifies the committed snapshot against the registry",
         "and generated document. With a workspace it additionally detects source drift.",
+        "A new skill-pack commit alone is ignored when its consumer manifest digest is unchanged;",
+        "a changed manifest still fails the check.",
         "Neither mode tests actual agent behavior or product readiness.", "",
     ]
     return "\n".join(lines)
@@ -242,7 +269,7 @@ def main() -> None:
         if args.workspace_root:
             current = snapshot_from_workspace(args.workspace_root.resolve(), scope,
                                               snapshot["packRevision"])
-            if current != snapshot:
+            if not same_sources(current, snapshot):
                 raise ValueError("Workspace or consumer manifests differ from committed snapshot; refresh deliberately")
         if DOCUMENT.read_text(encoding="utf-8").replace("\r\n", "\n") != render(snapshot, scope):
             raise ValueError("Application-scope document is out of sync with its sources")

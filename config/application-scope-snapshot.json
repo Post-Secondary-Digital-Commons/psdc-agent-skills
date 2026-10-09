@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "catalogRevision": "123cfa62b98b4add00330d7cd1ad260d3eecf517",
-  "packRevision": "473b78e1c3db9814a19c3d4796fda44e818865ec",
+  "packRevision": "d527cbeda07fac579f9088197b71f785f082acc4",
   "registrySha256": "b3b6a0a3c53e0864667bbf443811db38d59dd0b69fe74e6a2d33d9da3509066f",
   "repositories": [
     {
@@ -335,7 +335,7 @@
     {
       "id": "psdc-agent-skills",
       "path": "common/psdc-agent-skills",
-      "revision": "473b78e1c3db9814a19c3d4796fda44e818865ec",
+      "revision": "d527cbeda07fac579f9088197b71f785f082acc4",
       "manifestSha256": "9396a0300355a1c112433a10e070bc6bf832e117ffd88137fe38c2369e1f9b51",
       "packRevision": "45386cb2f1ccdd61a42100462325c1c3006f7f8a",
       "authority": "common",
