@@ -27,6 +27,8 @@ durable, surprising, hard-to-reverse trade-offs belong in `docs/adr/`.
 Use `config/skill-registry.yaml` as the enablement and provenance source. Load
 vendored upstream skills only through the PSDC policy described there. Preserve
 upstream files unchanged; PSDC-specific behavior belongs under `skills/`.
+For repository-area applicability or organization-wide enablement claims, read
+`docs/governance/SKILL-APPLICATION-SCOPE.md` and verify its source snapshot.
 
 ### Evidence
 
@@ -38,4 +40,3 @@ state. Assess the commit actually inspected and record its identifier.
 
 The project is documentation- and contract-first. Implementation/deployment
 skills are disabled until an accepted decision changes `config/skill-registry.yaml`.
-

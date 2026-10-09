@@ -1,0 +1,351 @@
+{
+  "schemaVersion": 1,
+  "catalogRevision": "123cfa62b98b4add00330d7cd1ad260d3eecf517",
+  "packRevision": "473b78e1c3db9814a19c3d4796fda44e818865ec",
+  "registrySha256": "b3b6a0a3c53e0864667bbf443811db38d59dd0b69fe74e6a2d33d9da3509066f",
+  "repositories": [
+    {
+      "id": "psdc-architecture",
+      "path": "common/psdc-architecture",
+      "revision": "992359c9a2bf8f802f5e6d1368664a68f0431400",
+      "manifestSha256": "b6bfcb1cb4c7150112fc39db5274712e0c2a2d0ac3e6b8da5efe6f0a78aa6216",
+      "packRevision": "dc7baf75ecadb389b190df4e438008ca9fe0f9f1",
+      "authority": "common",
+      "lifecycle": "specification",
+      "enabledSkills": [
+        "psdc-project-assessment",
+        "psdc-evidence-audit",
+        "domain-modeling",
+        "grill-with-docs",
+        "to-spec",
+        "wayfinder",
+        "research",
+        "writing-for-agents"
+      ]
+    },
+    {
+      "id": "algonquin-architecture",
+      "path": "institutions/algonquin/algonquin-architecture",
+      "revision": "7347cbc451589ca6fedd31afe739d2973f25615a",
+      "manifestSha256": "c75f1982fd3e68ebfe1b303bfc4078f5e4f31006023b9386bb23e6b68f290fd8",
+      "packRevision": "dc7baf75ecadb389b190df4e438008ca9fe0f9f1",
+      "authority": "institution",
+      "lifecycle": "specification",
+      "enabledSkills": [
+        "psdc-project-assessment",
+        "psdc-evidence-audit",
+        "domain-modeling",
+        "to-spec",
+        "writing-for-agents"
+      ]
+    },
+    {
+      "id": "psdc-cloud",
+      "path": "common/psdc-cloud",
+      "revision": "600240827e0cef0a69a3a480f50b8750955a1ace",
+      "manifestSha256": "e4ba40b1eda5216c4f1f519ba42b8ba49251ba96b61fcefe8d4a0c7df5585da7",
+      "packRevision": "dc7baf75ecadb389b190df4e438008ca9fe0f9f1",
+      "authority": "common",
+      "lifecycle": "specification",
+      "enabledSkills": [
+        "psdc-project-assessment",
+        "psdc-evidence-audit",
+        "domain-modeling",
+        "to-spec",
+        "research",
+        "writing-for-agents"
+      ]
+    },
+    {
+      "id": "algonquin-cloud",
+      "path": "institutions/algonquin/algonquin-cloud",
+      "revision": "05f728a3f78cacc59d2367aa812d762cf9e69a1e",
+      "manifestSha256": "47ac1618a9a4e0cf301186c502172d268fc8658e5f03e5d79f25fd1c26adbac8",
+      "packRevision": "dc7baf75ecadb389b190df4e438008ca9fe0f9f1",
+      "authority": "institution",
+      "lifecycle": "specification",
+      "enabledSkills": [
+        "psdc-project-assessment",
+        "psdc-evidence-audit",
+        "domain-modeling",
+        "to-spec",
+        "writing-for-agents"
+      ]
+    },
+    {
+      "id": "psdc-ai",
+      "path": "common/psdc-ai",
+      "revision": "fea3454ee1114635a21f9f9085cf94085aabcfdc",
+      "manifestSha256": "46dc65f6b34662faf0ead5f617df42a80236929968ad8f47fc0265edba9976e6",
+      "packRevision": "dc7baf75ecadb389b190df4e438008ca9fe0f9f1",
+      "authority": "common",
+      "lifecycle": "specification",
+      "enabledSkills": [
+        "psdc-project-assessment",
+        "psdc-evidence-audit",
+        "domain-modeling",
+        "to-spec",
+        "research",
+        "writing-for-agents"
+      ]
+    },
+    {
+      "id": "algonquin-ai",
+      "path": "institutions/algonquin/algonquin-ai",
+      "revision": "07219f498a40014941eed29b05c6437e05735f8e",
+      "manifestSha256": "78a08859225c6b95159f943dc7f9c14c9c43d3e55e5be2dbdefcc0d99cbf0c05",
+      "packRevision": "dc7baf75ecadb389b190df4e438008ca9fe0f9f1",
+      "authority": "institution",
+      "lifecycle": "specification",
+      "enabledSkills": [
+        "psdc-project-assessment",
+        "psdc-evidence-audit",
+        "domain-modeling",
+        "to-spec",
+        "writing-for-agents"
+      ]
+    },
+    {
+      "id": "psdc-compute",
+      "path": "common/psdc-compute",
+      "revision": "9ed1e812f63ece7efb0bc6dc82b3b7a1b26bc8de",
+      "manifestSha256": "7fb2a9328b857d78dc7331355feb5a03563385c950505aab4393590d01530728",
+      "packRevision": "dc7baf75ecadb389b190df4e438008ca9fe0f9f1",
+      "authority": "common",
+      "lifecycle": "specification",
+      "enabledSkills": [
+        "psdc-project-assessment",
+        "psdc-evidence-audit",
+        "domain-modeling",
+        "to-spec",
+        "research",
+        "writing-for-agents"
+      ]
+    },
+    {
+      "id": "algonquin-compute",
+      "path": "institutions/algonquin/algonquin-compute",
+      "revision": "b2a02e10c0b3b87370a168eac0f1a138e7210779",
+      "manifestSha256": "e6346b43b31df8d5d9871b42c4cfe98e98f7c765d34b4e2d23acc83c27939993",
+      "packRevision": "dc7baf75ecadb389b190df4e438008ca9fe0f9f1",
+      "authority": "institution",
+      "lifecycle": "specification",
+      "enabledSkills": [
+        "psdc-project-assessment",
+        "psdc-evidence-audit",
+        "domain-modeling",
+        "to-spec",
+        "writing-for-agents"
+      ]
+    },
+    {
+      "id": "psdc-media",
+      "path": "common/psdc-media",
+      "revision": "a0667a857858d8ef669972bd050c25ee4232f8cb",
+      "manifestSha256": "2130ce098cec2941e46a13516e338df529128240f8a1fcda310860d12982736a",
+      "packRevision": "dc7baf75ecadb389b190df4e438008ca9fe0f9f1",
+      "authority": "common",
+      "lifecycle": "specification",
+      "enabledSkills": [
+        "psdc-project-assessment",
+        "psdc-evidence-audit",
+        "domain-modeling",
+        "to-spec",
+        "research",
+        "writing-for-agents"
+      ]
+    },
+    {
+      "id": "algonquin-media",
+      "path": "institutions/algonquin/algonquin-media",
+      "revision": "5193327a14269e58e367bdbe21813b080ef1c8ae",
+      "manifestSha256": "d7e36209679cef3c59a070f70b725d57b0022fd6cc8956fbcb39ae37f117d956",
+      "packRevision": "dc7baf75ecadb389b190df4e438008ca9fe0f9f1",
+      "authority": "institution",
+      "lifecycle": "specification",
+      "enabledSkills": [
+        "psdc-project-assessment",
+        "psdc-evidence-audit",
+        "domain-modeling",
+        "to-spec",
+        "writing-for-agents"
+      ]
+    },
+    {
+      "id": "psdc-social",
+      "path": "common/psdc-social",
+      "revision": "b7bb37352f99c646a160af6f82e1c30cfcdb9d1a",
+      "manifestSha256": "053035f353272a47f4fe0df19ccec3c88c1233f1ecaf7d82ebfff4f2264adf0f",
+      "packRevision": "dc7baf75ecadb389b190df4e438008ca9fe0f9f1",
+      "authority": "common",
+      "lifecycle": "specification",
+      "enabledSkills": [
+        "psdc-project-assessment",
+        "psdc-evidence-audit",
+        "domain-modeling",
+        "to-spec",
+        "research",
+        "writing-for-agents"
+      ]
+    },
+    {
+      "id": "algonquin-social",
+      "path": "institutions/algonquin/algonquin-social",
+      "revision": "03d7bb29eb128f15af475b5ee69bcfd0a028c47e",
+      "manifestSha256": "9145f26ecc05a3f0915a253bf2d13e033e6938fc1b4b2f957897c6b7dc7589a9",
+      "packRevision": "dc7baf75ecadb389b190df4e438008ca9fe0f9f1",
+      "authority": "institution",
+      "lifecycle": "specification",
+      "enabledSkills": [
+        "psdc-project-assessment",
+        "psdc-evidence-audit",
+        "domain-modeling",
+        "to-spec",
+        "writing-for-agents"
+      ]
+    },
+    {
+      "id": "psdc-web",
+      "path": "common/psdc-web",
+      "revision": "064cfe07a051ee2c5243a09ba22ecc6720e05e57",
+      "manifestSha256": "42922cea202341698e78e1f96c9a58dd6f5dc5343cc79ad2cf14e643f1dbb092",
+      "packRevision": "dc7baf75ecadb389b190df4e438008ca9fe0f9f1",
+      "authority": "common",
+      "lifecycle": "specification",
+      "enabledSkills": [
+        "psdc-project-assessment",
+        "psdc-evidence-audit",
+        "to-spec",
+        "research",
+        "writing-for-agents"
+      ]
+    },
+    {
+      "id": "algonquin-web",
+      "path": "institutions/algonquin/algonquin-web",
+      "revision": "bb8d7469aa775a34815d7f8cea39fd5c5176dea6",
+      "manifestSha256": "5a8caae73e1ac910e4c13cb01e2378c926ab0ae5fdd688cceaaa7df4953176d4",
+      "packRevision": "dc7baf75ecadb389b190df4e438008ca9fe0f9f1",
+      "authority": "institution",
+      "lifecycle": "specification",
+      "enabledSkills": [
+        "psdc-project-assessment",
+        "psdc-evidence-audit",
+        "domain-modeling",
+        "to-spec",
+        "writing-for-agents"
+      ]
+    },
+    {
+      "id": "psdc-desktop",
+      "path": "common/psdc-desktop",
+      "revision": "9798d259fafabe35bfe66682068040d2b31e48e3",
+      "manifestSha256": "baf01c54c84da6958636734af25d191295051de91eb09f66591e90649dd4045d",
+      "packRevision": "dc7baf75ecadb389b190df4e438008ca9fe0f9f1",
+      "authority": "common",
+      "lifecycle": "specification",
+      "enabledSkills": [
+        "psdc-project-assessment",
+        "psdc-evidence-audit",
+        "to-spec",
+        "research",
+        "writing-for-agents"
+      ]
+    },
+    {
+      "id": "algonquin-desktop",
+      "path": "institutions/algonquin/algonquin-desktop",
+      "revision": "f0c1dd3a035d109f229e83fa247491822c532130",
+      "manifestSha256": "93a12b8bbfd0766dc07e637cbeddabf262434ad0a8c246b8225eef403001a341",
+      "packRevision": "dc7baf75ecadb389b190df4e438008ca9fe0f9f1",
+      "authority": "institution",
+      "lifecycle": "specification",
+      "enabledSkills": [
+        "psdc-project-assessment",
+        "psdc-evidence-audit",
+        "domain-modeling",
+        "to-spec",
+        "writing-for-agents"
+      ]
+    },
+    {
+      "id": "psdc-mobile",
+      "path": "common/psdc-mobile",
+      "revision": "58dc054af89a40bb0218fb9da47ee39841518a08",
+      "manifestSha256": "a031623429de1bdfba081dfc7a0e313a950481eb09b0ad4458b0d40b7cba1f6f",
+      "packRevision": "dc7baf75ecadb389b190df4e438008ca9fe0f9f1",
+      "authority": "common",
+      "lifecycle": "specification",
+      "enabledSkills": [
+        "psdc-project-assessment",
+        "psdc-evidence-audit",
+        "to-spec",
+        "research",
+        "writing-for-agents"
+      ]
+    },
+    {
+      "id": "algonquin-mobile",
+      "path": "institutions/algonquin/algonquin-mobile",
+      "revision": "6f024b2d2032ebab4f52115f11c9fce418d5c90b",
+      "manifestSha256": "758b105089ccf5b27240630b2d8de01383049c45ca4688242606e78d40917c3b",
+      "packRevision": "dc7baf75ecadb389b190df4e438008ca9fe0f9f1",
+      "authority": "institution",
+      "lifecycle": "specification",
+      "enabledSkills": [
+        "psdc-project-assessment",
+        "psdc-evidence-audit",
+        "domain-modeling",
+        "to-spec",
+        "writing-for-agents"
+      ]
+    },
+    {
+      "id": "psdc-deployment-template",
+      "path": "common/psdc-deployment-template",
+      "revision": "6e1f52a2f4cf768518b94aca4b5105f5197fae3b",
+      "manifestSha256": "c0131c5474457ee9daad1ea0a727ef6f5f5f36df3031001f49f01308f7144582",
+      "packRevision": "dc7baf75ecadb389b190df4e438008ca9fe0f9f1",
+      "authority": "common",
+      "lifecycle": "specification",
+      "enabledSkills": [
+        "psdc-project-assessment",
+        "psdc-evidence-audit",
+        "to-spec",
+        "research",
+        "writing-for-agents"
+      ]
+    },
+    {
+      "id": "algonquin-deployment",
+      "path": "institutions/algonquin/algonquin-deployment",
+      "revision": "278377f97ca231370cf55df4c9b85e629429e947",
+      "manifestSha256": "06bd17c0e0968215ec64aeddfaff13003d37248b16991f4a63558ed8dab1574b",
+      "packRevision": "dc7baf75ecadb389b190df4e438008ca9fe0f9f1",
+      "authority": "institution",
+      "lifecycle": "specification",
+      "enabledSkills": [
+        "psdc-project-assessment",
+        "psdc-evidence-audit",
+        "domain-modeling",
+        "to-spec",
+        "writing-for-agents"
+      ]
+    },
+    {
+      "id": "psdc-agent-skills",
+      "path": "common/psdc-agent-skills",
+      "revision": "473b78e1c3db9814a19c3d4796fda44e818865ec",
+      "manifestSha256": "9396a0300355a1c112433a10e070bc6bf832e117ffd88137fe38c2369e1f9b51",
+      "packRevision": "45386cb2f1ccdd61a42100462325c1c3006f7f8a",
+      "authority": "common",
+      "lifecycle": "specification",
+      "enabledSkills": [
+        "psdc-project-assessment",
+        "psdc-evidence-audit",
+        "domain-modeling",
+        "writing-for-agents"
+      ]
+    }
+  ]
+}

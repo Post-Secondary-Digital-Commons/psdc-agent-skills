@@ -1,0 +1,68 @@
+schemaVersion: 1
+profiles:
+  - id: architecture
+    repositories: [psdc-architecture, algonquin-architecture]
+    areas: Decisions, contracts, fixtures, roadmaps, and institution policy overlays.
+    trigger: Changes to shared terms, interfaces, decisions, or readiness claims.
+    skills: [domain-modeling, research, to-spec, to-tickets, wayfinder, code-review, psdc-project-assessment, psdc-evidence-audit, psdc-upstream-adoption]
+    evidenceBoundary: A document or contract check does not establish service behavior or institution approval.
+  - id: cloud
+    repositories: [psdc-cloud, algonquin-cloud]
+    areas: Identity, policy, storage, evidence, networking, and infrastructure interfaces.
+    trigger: A shared service boundary, dependency, or deployment profile changes.
+    skills: [research, codebase-design, code-review, prototype, psdc-upstream-adoption, psdc-evidence-audit]
+    evidenceBoundary: A local service test does not establish custody, disaster recovery, or production admission.
+  - id: ai
+    repositories: [psdc-ai, algonquin-ai]
+    areas: Session control, gateway, model routing, tool grants, and inference integration.
+    trigger: A model, tool, data-access, or session boundary changes.
+    skills: [research, codebase-design, prototype, code-review, psdc-upstream-adoption, psdc-evidence-audit]
+    evidenceBoundary: A model demo does not establish safe tool authority, privacy, scale, or campus availability.
+  - id: compute
+    repositories: [psdc-compute, algonquin-compute]
+    areas: Providers, capabilities, workload admission, placement, leases, workers, and receipts.
+    trigger: A scheduler, worker, upstream mechanism, or lab-machine boundary changes.
+    skills: [domain-modeling, research, codebase-design, prototype, code-review, psdc-upstream-adoption, psdc-evidence-audit]
+    evidenceBoundary: Synthetic and unit tests do not establish lab safety, operator consent, physical capacity, or settlement correctness.
+  - id: media
+    repositories: [psdc-media, algonquin-media]
+    areas: Image, video, spatial, 3D, and 4DGS processing and media custody.
+    trigger: A pipeline, format, model, provenance, or media-access boundary changes.
+    skills: [research, codebase-design, prototype, code-review, psdc-upstream-adoption, psdc-evidence-audit]
+    evidenceBoundary: Render success does not establish provenance, rights, deletion, or cross-device performance.
+  - id: social
+    repositories: [psdc-social, algonquin-social]
+    areas: ActivityPub, social surfaces, moderation, federation, and spatial content policy.
+    trigger: A federation message, moderation, identity, or consent boundary changes.
+    skills: [domain-modeling, research, to-spec, code-review, psdc-upstream-adoption, psdc-evidence-audit]
+    evidenceBoundary: Protocol parsing does not establish federation trust, consent, or moderation effectiveness.
+  - id: web
+    repositories: [psdc-web, algonquin-web]
+    areas: Browser client, accessibility, sessions, gateway integration, and user-facing flows.
+    trigger: A UI, accessibility, session, or shared API interaction changes.
+    skills: [research, codebase-design, prototype, code-review, psdc-upstream-adoption, psdc-evidence-audit]
+    evidenceBoundary: A mock UI or browser build does not establish end-to-end identity or deployed usability.
+  - id: desktop
+    repositories: [psdc-desktop, algonquin-desktop]
+    areas: Managed and personal desktop clients, local permissions, updates, and session relay.
+    trigger: Packaging, local-file, tool, update, or gateway integration changes.
+    skills: [research, codebase-design, prototype, code-review, psdc-upstream-adoption, psdc-evidence-audit]
+    evidenceBoundary: A developer-machine run does not establish managed-campus rollout or personal-device safety.
+  - id: mobile
+    repositories: [psdc-mobile, algonquin-mobile]
+    areas: Mobile client, store packaging, device permissions, offline state, and session handoff.
+    trigger: Device capability, permission, session, or release path changes.
+    skills: [research, codebase-design, prototype, code-review, psdc-upstream-adoption, psdc-evidence-audit]
+    evidenceBoundary: A simulator run does not establish app-store approval, device privacy, or offline recovery.
+  - id: deployment
+    repositories: [psdc-deployment-template, algonquin-deployment]
+    areas: OpenTofu, Ansible, images, secrets separation, network profiles, and rollback.
+    trigger: A deployment module, environment binding, security setting, or recovery path changes.
+    skills: [research, code-review, to-questionnaire, psdc-upstream-adoption, psdc-evidence-audit]
+    evidenceBoundary: A plan or dry run does not establish a safe institution deployment or recovery drill.
+  - id: agent-skills
+    repositories: [psdc-agent-skills]
+    areas: Skill provenance, routing, consumer manifests, agent guidance, and evidence rubrics.
+    trigger: An upstream skill, wrapper, registry gate, or consumer contract changes.
+    skills: [writing-for-agents, research, code-review, retro, psdc-project-assessment, psdc-evidence-audit, psdc-upstream-adoption]
+    evidenceBoundary: Registry and hash checks prove structure and provenance, not agent compliance or product readiness.

@@ -14,6 +14,8 @@ it is not evidence that any PSDC runtime service exists.
   phase policy.
 - [`docs/governance/COMPLETE-SKILL-INVENTORY.md`](docs/governance/COMPLETE-SKILL-INVENTORY.md):
   every upstream skill at the pinned commit, including twelve deliberately not added.
+- [`docs/governance/SKILL-APPLICATION-SCOPE.md`](docs/governance/SKILL-APPLICATION-SCOPE.md):
+  generated repository-area map and revision-bound consumer opt-in snapshot.
 - `skills/psdc-upstream-adoption/`: component-level reuse decisions and a
   lightweight implementation-delta check; records use
   `schemas/upstream-adoption-record.schema.json`.

@@ -21,6 +21,10 @@ repository's manifest. Consumers should enable `psdc-upstream-adoption` when
 they begin component selection or implementation work, then retain a review
 record in the component-owning repository. A passing adoption-record schema
 check is structural evidence, not acceptance of the selected upstream.
+The generated [application-scope map](SKILL-APPLICATION-SCOPE.md) shows
+repository-area recommendations and the exact consumer opt-ins observed at a
+recorded revision. Refresh it after consumer manifests change; it does not
+replace any repository's own manifest or authorize a gated skill.
 
 ## Validation
 
