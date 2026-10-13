@@ -35,8 +35,14 @@ python scripts/Validate-Consumer.py C:\path\to\repository\.psdc\agent-skills.yam
 ```
 
 The validator checks the schema, enabled-skill registry, repository identity,
-and local entrypoint paths. Repository identity comes from the `origin` Git
-remote so independent worktree directory names are allowed. A pass proves manifest structure and referenced
+and local entrypoint paths. For an external consumer, the manifest's pack pin
+must match the skill-pack checkout's `HEAD`; use a checkout at the pinned
+revision when validating an older consumer. The registry and consumer schema
+must also match committed files at that revision. Only the skill pack's canonical
+`.psdc/agent-skills.yaml` is exempt from the pin comparison because it cannot
+pin its eventual commit. Repository
+identity comes from the `origin` Git remote so independent worktree directory
+names are allowed. A pass proves manifest structure and referenced
 files; it does not prove that an agent obeyed the skills or that any product
 service runs.
 
