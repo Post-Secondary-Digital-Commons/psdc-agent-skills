@@ -26,6 +26,33 @@ def main() -> int:
     manifest = yaml.safe_load(manifest_path.read_text(encoding="utf-8"))
     jsonschema.validate(manifest, schema, format_checker=jsonschema.FormatChecker())
 
+    # The canonical pack manifest cannot pin its eventual commit. Every other
+    # manifest must use the policy at the exact commit named by its pin.
+    self_manifest = skill_root / ".psdc/agent-skills.yaml"
+    if manifest_path != self_manifest:
+        revision = subprocess.run(
+            ["git", "-C", str(skill_root), "rev-parse", "HEAD"],
+            text=True, capture_output=True, check=False,
+        )
+        if revision.returncode != 0:
+            raise ValueError(f"{skill_root}: skill root must be a Git checkout")
+        actual_revision = revision.stdout.strip()
+        pinned_revision = manifest["skillPack"]["revision"]
+        if actual_revision != pinned_revision:
+            raise ValueError(
+                f"{manifest_path}: skill pack pin {pinned_revision} differs "
+                f"from skill root HEAD {actual_revision}"
+            )
+        policy_files = ["config/skill-registry.yaml", "schemas/consumer-manifest.schema.json"]
+        policy_diff = subprocess.run(
+            ["git", "-C", str(skill_root), "diff", "--quiet", "HEAD", "--", *policy_files],
+            text=True, capture_output=True, check=False,
+        )
+        if policy_diff.returncode == 1:
+            raise ValueError(f"{skill_root}: skill registry or consumer schema differs from HEAD")
+        if policy_diff.returncode != 0:
+            raise ValueError(f"{skill_root}: could not verify skill policy against HEAD: {policy_diff.stderr.strip()}")
+
     allowed = {item["id"] for item in registry["skills"] if item["mode"] in {"adapted", "enabled"}}
     forbidden = {item["id"] for item in registry["prohibited"] + registry["deferred"]}
     for skill in manifest["enabledSkills"]:
