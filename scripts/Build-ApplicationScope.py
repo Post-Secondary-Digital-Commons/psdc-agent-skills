@@ -49,6 +49,42 @@ def validate_policy(scope: dict, registry: dict) -> None:
             if repo_id in seen:
                 raise ValueError(f"Repository appears in more than one profile: {repo_id}")
             seen.add(repo_id)
+    profile_ids = {profile["id"] for profile in scope["profiles"]}
+    catalog = application_catalog(registry)
+    applications = scope.get("applications", [])
+    ids = [entry["id"] for entry in applications]
+    if len(ids) != len(set(ids)) or set(ids) != set(catalog):
+        raise ValueError(f"Application coverage mismatch: missing={sorted(set(catalog) - set(ids))}, extra={sorted(set(ids) - set(catalog))}")
+    for entry in applications:
+        profiles = entry.get("profiles", [])
+        if not profiles or len(profiles) != len(set(profiles)):
+            raise ValueError(f"Empty or duplicate profiles for {entry['id']}")
+        if "all" in profiles and len(profiles) != 1:
+            raise ValueError(f"'all' must stand alone for {entry['id']}")
+        if set(profiles) - profile_ids - {"all"}:
+            raise ValueError(f"Unknown profile for {entry['id']}: {profiles}")
+        if not isinstance(entry.get("when"), str) or not entry["when"].strip():
+            raise ValueError(f"Missing task trigger for {entry['id']}")
+
+
+def application_catalog(registry: dict) -> dict[str, tuple[str, str]]:
+    """Return every pinned pack skill and pilot with its gate, not the excluded set."""
+    result: dict[str, tuple[str, str]] = {}
+    for entry in registry["skills"]:
+        mode = entry["mode"]
+        gate = ("Consumer opt-in at pinned revision and task authority" if mode in {"adapted", "enabled"}
+                else "Human policy review before consumer opt-in")
+        result[entry["id"]] = (mode, gate)
+    for entry in registry["deferred"]:
+        result[entry["id"]] = ("gated", entry["activationGate"])
+    for entry in registry["prohibited"]:
+        result[entry["id"]] = ("prohibited", entry["reason"])
+    for entry in registry["pilots"]:
+        result[entry["id"]] = ("pilot", entry["gate"])
+    expected_count = sum(len(registry[key]) for key in ("skills", "deferred", "prohibited", "pilots"))
+    if len(result) != expected_count:
+        raise ValueError("Duplicate skill identity across registry groups")
+    return result
 
 
 def read_policy() -> tuple[dict, dict]:
@@ -58,12 +94,18 @@ def read_policy() -> tuple[dict, dict]:
     return scope, registry
 
 
-def snapshot_from_workspace(workspace: Path, scope: dict, pack_revision: str) -> dict:
+def snapshot_from_workspace(workspace: Path, scope: dict, pack_revision: str,
+                            checkout_root: Path | None = None) -> dict:
     catalog_revision = git(workspace, "rev-parse", "origin/main").strip()
     catalog = yaml.safe_load(git(workspace, "show", "origin/main:repos.yaml"))
     if catalog.get("schemaVersion") != 3:
         raise ValueError("Expected the workspace v3 repository catalog")
-    entries = []
+    workspace_id = catalog.get("workspace")
+    if workspace_id != "psdc-workspace":
+        raise ValueError("Workspace catalog identity is missing or unexpected")
+    if git(workspace, "remote", "get-url", "origin").strip().removesuffix(".git").lower() != catalog["workspaceRemote"].removesuffix(".git").lower():
+        raise ValueError("Workspace checkout origin differs from the catalog")
+    entries = [{"id": workspace_id, "path": "."}]
     for item in catalog["repositories"]:
         entries.append(item["repository"])
         entries.extend(overlay for overlay in item.get("institutionOverlays", [])
@@ -73,10 +115,11 @@ def snapshot_from_workspace(workspace: Path, scope: dict, pack_revision: str) ->
     if expected != actual:
         raise ValueError(f"Scope/catalog mismatch: missing={sorted(actual - expected)}, extra={sorted(expected - actual)}")
     records = []
+    checkout_base = checkout_root or workspace
     for entry in entries:
-        checkout = workspace / entry["path"]
-        if not checkout.resolve().is_relative_to(workspace.resolve()):
-            raise ValueError(f"Catalog path leaves workspace: {entry['path']}")
+        checkout = workspace if entry["id"] == workspace_id else checkout_base / entry["path"]
+        if entry["id"] != workspace_id and not checkout.resolve().is_relative_to(checkout_base.resolve()):
+            raise ValueError(f"Catalog path leaves checkout root: {entry['path']}")
         revision = git(checkout, "rev-parse", "origin/main").strip()
         raw = git(checkout, "show", "origin/main:.psdc/agent-skills.yaml")
         manifest = yaml.safe_load(raw)
@@ -143,6 +186,22 @@ def self_test() -> None:
         pass
     else:
         raise AssertionError("Prohibited skill was accepted as a recommendation")
+    missing_application = copy.deepcopy(scope)
+    missing_application["applications"].pop()
+    try:
+        validate_policy(missing_application, registry)
+    except ValueError:
+        pass
+    else:
+        raise AssertionError("Missing skill application was accepted")
+    bad_profile = copy.deepcopy(scope)
+    bad_profile["applications"][0]["profiles"] = ["not-a-profile"]
+    try:
+        validate_policy(bad_profile, registry)
+    except ValueError:
+        pass
+    else:
+        raise AssertionError("Unknown application profile was accepted")
     snapshot = json.loads(SNAPSHOT.read_text(encoding="utf-8"))
     validate_snapshot(snapshot, scope, registry)
     bad_snapshot = copy.deepcopy(snapshot)
@@ -168,7 +227,7 @@ def self_test() -> None:
         raise AssertionError("Another repository's changed commit was accepted")
 
 
-def render(snapshot: dict, scope: dict) -> str:
+def render(snapshot: dict, scope: dict, registry: dict) -> str:
     records = {record["id"]: record for record in snapshot["repositories"]}
     different_pins = sum(record["packRevision"] != snapshot["packRevision"]
                          for record in snapshot["repositories"])
@@ -181,7 +240,8 @@ def render(snapshot: dict, scope: dict) -> str:
         "",
         "## Read this map",
         "",
-        "A profile names useful methods for a repository's work, **not** automatic enablement.",
+        "A profile names primary methods for a repository's work, **not** automatic enablement.",
+        "The complete map below adds cross-cutting and gated methods for every skill.",
         "The consumer manifest lists declared opt-ins at its own pinned pack revision.",
         "A task triggers only the applicable enabled method, subject to its gate, repository",
         "instructions, and explicit user authority. The [registry](../../config/skill-registry.yaml)",
@@ -196,13 +256,39 @@ def render(snapshot: dict, scope: dict) -> str:
         "",
         "## Repository and area profiles",
         "",
-        "| Profile / repositories | Areas and trigger | Relevant methods | Evidence boundary |",
+        "| Profile / repositories | Areas and trigger | Primary methods | Evidence boundary |",
         "|---|---|---|---|",
     ]
     for profile in scope["profiles"]:
         repos = ", ".join(f"`{repo_id}`" for repo_id in profile["repositories"])
         methods = ", ".join(f"`{skill}`" for skill in profile["skills"])
         lines.append(f"| **{profile['id']}**: {repos} | {profile['areas']} Trigger: {profile['trigger']} | {methods} | {profile['evidenceBoundary']} |")
+    catalog = application_catalog(registry)
+    lines += [
+        "", "## Complete skill-by-skill application map", "",
+        "This maps all pinned pack skills and format pilots to task triggers across the",
+        f"{len(records)} scoped repositories (workspace root plus catalog entries).",
+        "`all` means every repository profile above; a",
+        "named profile narrows ownership. Gated, prohibited, and pilot rows are",
+        "**planning scope only**, not permission to invoke or add to a consumer manifest.",
+        "Workspace views live in `psdc-workspace`; skill policy is owned by `psdc-agent-skills`.",
+        "The [inventory](COMPLETE-SKILL-INVENTORY.md) explains each method and example.",
+        "", "| Skill | Pack state | Repository profiles | Use when | Activation boundary |",
+        "|---|---|---|---|---|",
+    ]
+    for application in scope["applications"]:
+        mode, gate = catalog[application["id"]]
+        profiles = f"All {len(records)} repositories" if application["profiles"] == ["all"] else ", ".join(application["profiles"])
+        lines.append(f"| `{application['id']}` | {mode} | {profiles} | {application['when']} | {gate} |")
+    lines += [
+        "", "## Not imported into the common skill pack", "",
+        "These upstream skills have no PSDC application route. Reconsider them in a",
+        "separate source, license, security, and owner review; this map does not",
+        "make them available in any consumer repository.",
+        "", "| Upstream skill | Why excluded |", "|---|---|",
+    ]
+    for entry in registry["notAdded"]:
+        lines.append(f"| `{entry['id']}` | {entry['reason']} |")
     lines += [
         "", "## Declared consumer opt-ins at the inspected revisions", "",
         "| Repository | Commit | Pack pin | Declared enabled skills |",
@@ -232,6 +318,9 @@ def render(snapshot: dict, scope: dict) -> str:
         "python scripts/Build-ApplicationScope.py --refresh --workspace-root C:\\path\\to\\psdc-workspace",
         "python scripts/Build-ApplicationScope.py --check --workspace-root C:\\path\\to\\psdc-workspace",
         "```", "",
+        "When the workspace source is a separate worktree, add",
+        "`--checkout-root C:\\path\\to\\product-checkouts` to point at sibling repositories.",
+        "",
         "`--check` without a workspace verifies the committed snapshot against the registry",
         "and generated document. With a workspace it additionally detects source drift.",
         "A new skill-pack commit alone is ignored when its consumer manifest digest is unchanged;",
@@ -244,6 +333,8 @@ def render(snapshot: dict, scope: dict) -> str:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--workspace-root", type=Path)
+    parser.add_argument("--checkout-root", type=Path,
+                        help="Parent of product checkouts when separate from the workspace source")
     parser.add_argument("--refresh", action="store_true")
     parser.add_argument("--check", action="store_true")
     parser.add_argument("--self-test", action="store_true")
@@ -259,19 +350,21 @@ def main() -> None:
         if not args.workspace_root:
             parser.error("--refresh requires --workspace-root")
         snapshot = snapshot_from_workspace(args.workspace_root.resolve(), scope,
-                                           git(ROOT, "rev-parse", "origin/main").strip())
+                                           git(ROOT, "rev-parse", "origin/main").strip(),
+                                           args.checkout_root.resolve() if args.checkout_root else None)
         validate_snapshot(snapshot, scope, registry)
         SNAPSHOT.write_text(json.dumps(snapshot, indent=2) + "\n", encoding="utf-8")
-        DOCUMENT.write_text(render(snapshot, scope), encoding="utf-8")
+        DOCUMENT.write_text(render(snapshot, scope, registry), encoding="utf-8")
     else:
         snapshot = json.loads(SNAPSHOT.read_text(encoding="utf-8"))
         validate_snapshot(snapshot, scope, registry)
         if args.workspace_root:
             current = snapshot_from_workspace(args.workspace_root.resolve(), scope,
-                                              snapshot["packRevision"])
+                                              snapshot["packRevision"],
+                                              args.checkout_root.resolve() if args.checkout_root else None)
             if not same_sources(current, snapshot):
                 raise ValueError("Workspace or consumer manifests differ from committed snapshot; refresh deliberately")
-        if DOCUMENT.read_text(encoding="utf-8").replace("\r\n", "\n") != render(snapshot, scope):
+        if DOCUMENT.read_text(encoding="utf-8").replace("\r\n", "\n") != render(snapshot, scope, registry):
             raise ValueError("Application-scope document is out of sync with its sources")
     print(f"Application scope passed: {len(snapshot['repositories'])} repositories, {len(scope['profiles'])} profiles")
 

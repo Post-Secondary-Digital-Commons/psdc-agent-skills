@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "componentId": "workspace.obsidian-format-skills",
+  "repository": "psdc-agent-skills",
+  "scope": "common",
+  "status": "proposed",
+  "decisionOwner": "PSDC Developer Experience Maintainers",
+  "governingRefs": [
+    "ADR-0034-governed-agent-skills-and-workspace-knowledge-plane",
+    "ADR-0008-open-source-self-hosted-core",
+    "OPEN-WORKSPACE-AND-OBSIDIAN-SKILLS-2026-10-09"
+  ],
+  "candidates": [
+    {
+      "project": "kepano/obsidian-skills",
+      "sourceUrl": "https://github.com/kepano/obsidian-skills",
+      "sourceRevision": "3ccff5338ea700537839b21900aa5358a0402c98",
+      "licenseEvidence": "MIT at upstream LICENSE; vendored notice and SHA-256 manifest",
+      "fit": "Markdown and JSON Canvas format guidance without an executable dependency",
+      "limitations": "Upstream wikilink preference conflicts with independent repository portability; Obsidian rendering not verified"
+    },
+    {
+      "project": "gmickel/obsidian-skill",
+      "sourceUrl": "https://github.com/gmickel/obsidian-skill",
+      "sourceRevision": "d10be948bb5b8e8a8159ac8fc98d64b4603a1ec3",
+      "licenseEvidence": "MIT at inspected repository LICENSE",
+      "fit": "Portable CLI instructions and scoped references",
+      "limitations": "Requires proprietary Obsidian application; not a headless validation foundation"
+    },
+    {
+      "project": "pariyar07/ariadne",
+      "sourceUrl": "https://github.com/pariyar07/ariadne",
+      "sourceRevision": "f8982537fcbb18b807b717ce3d613eb68b07066f",
+      "licenseEvidence": "MIT at inspected repository LICENSE",
+      "fit": "Scope navigation and deterministic vault validation patterns",
+      "limitations": "Full vault framework overlaps existing PSDC catalog and generated command center"
+    }
+  ],
+  "selection": {
+    "mode": "adopt",
+    "project": "kepano/obsidian-skills",
+    "sourceRevision": "3ccff5338ea700537839b21900aa5358a0402c98",
+    "rationale": "Propose two unmodified format-skill pilots with PSDC-specific authority rules outside the vendor tree"
+  },
+  "upstreamProvides": ["Obsidian Markdown and JSON Canvas format guidance"],
+  "psdcOwns": ["repository-portable links", "authority order", "consumer opt-in", "readiness claims"],
+  "excluded": ["Obsidian CLI as a required platform dependency", "automatic vault rewriting", "upstream default wikilinks in independent repository docs"],
+  "evidence": [
+    {
+      "method": "Pinned source and SHA-256 comparison",
+      "artifact": "config/obsidian-files.sha256",
+      "revision": "3ccff5338ea700537839b21900aa5358a0402c98",
+      "result": "passed",
+      "limitations": "Proves copied file identity, not skill behavior or vault rendering"
+    },
+    {
+      "method": "Positive and negative Canvas structure fixtures",
+      "artifact": "skills/psdc-obsidian-format/scripts/validate_canvas.py",
+      "revision": "proposed skill-pack branch",
+      "result": "passed",
+      "limitations": "No visual rendering, Obsidian app, or live Canvas was exercised"
+    },
+    {
+      "method": "Workspace-owned and third-party Markdown link fixtures",
+      "artifact": "psdc-workspace scripts/Test-DocumentationChecker.Tests.ps1",
+      "revision": "e0e2535c3a03e31c9a85694ea8a1642c26f23de4",
+      "result": "passed",
+      "limitations": "Fixtures do not resolve every link in current product checkouts"
+    }
+  ],
+  "maintenance": {
+    "owner": "PSDC Developer Experience Maintainers",
+    "updatePlan": "Review explicit upstream commits and notices by pull request; preserve vendor bytes and re-run format fixtures",
+    "replacementTrigger": "Source abandonment, license change, unsafe behavior, or failed portable-format pilot",
+    "patchBudget": "No edits in vendor tree; PSDC-only boundary rules live in native guidance"
+  },
+  "openGates": ["Human adoption review", "Optional visual rendering verification", "Explicit consumer opt-in"]
+}

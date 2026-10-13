@@ -11,6 +11,13 @@ upstreams:
     importedAt: 2026-10-07
     updatePolicy: reviewed-pull-request
     expectedSkillCount: 38
+  kepano-obsidian-skills:
+    repository: https://github.com/kepano/obsidian-skills
+    revision: 3ccff5338ea700537839b21900aa5358a0402c98
+    license: MIT
+    importedAt: 2026-10-13
+    updatePolicy: reviewed-pull-request
+    expectedSkillCount: 2
 
 skills:
   - id: setup-matt-pocock-skills
@@ -174,6 +181,37 @@ skills:
     phase: all
     purpose: Record reuse-versus-build decisions for every component and implementation delta.
     psdcConstraints: [upstream-provenance, license-gates, sovereign-authority, evidence-boundaries]
+  - id: psdc-engineering-quality
+    source: psdc
+    path: skills/psdc-engineering-quality
+    mode: enabled
+    phase: all
+    purpose: Apply revision-bound documentation and engineering quality gates without treating proposals as accepted rules.
+    psdcConstraints: [authority-order, standards-status, no-readiness-inflation, exact-evidence]
+  - id: psdc-workspace-health
+    source: psdc
+    path: skills/psdc-workspace-health
+    mode: enabled
+    phase: specification
+    purpose: Report command-center, documentation, and skill-scope check results without editing the workspace.
+    psdcConstraints: [explicit-workspace-root, no-readiness-inflation, read-only-checkout]
+  - id: psdc-obsidian-format
+    source: psdc
+    path: skills/psdc-obsidian-format
+    mode: gated
+    phase: specification
+    purpose: Author and validate portable workspace Markdown and JSON Canvas views using reviewed format pilots.
+    psdcConstraints: [portable-links, derived-views, no-obsidian-runtime-dependency]
+
+pilots:
+  - id: obsidian-markdown
+    source: kepano-obsidian-skills
+    path: vendor/obsidian/obsidian-markdown
+    gate: Verify PSDC link portability and record optional rendering status before consumer opt-in.
+  - id: json-canvas
+    source: kepano-obsidian-skills
+    path: vendor/obsidian/json-canvas
+    gate: Verify generated Canvas schema, link targets, and optional rendering before consumer opt-in.
 
 deferred:
   - id: ask-matt

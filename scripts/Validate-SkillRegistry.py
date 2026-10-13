@@ -14,10 +14,11 @@ ROOT = Path(__file__).resolve().parents[1]
 def main() -> None:
     registry = yaml.safe_load((ROOT / "config/skill-registry.yaml").read_text(encoding="utf-8"))
     active = registry["skills"]
+    pilots = registry["pilots"]
     deferred = registry["deferred"]
     prohibited = registry["prohibited"]
     omitted = registry["notAdded"]
-    all_entries = active + deferred + prohibited + omitted
+    all_entries = active + pilots + deferred + prohibited + omitted
     ids = [item["id"] for item in all_entries]
     if len(ids) != len(set(ids)):
         raise ValueError("A skill has more than one disposition")
@@ -32,7 +33,18 @@ def main() -> None:
     }
     if vendor_ids != actual_vendor_ids:
         raise ValueError(f"Vendor/registry mismatch: missing={vendor_ids - actual_vendor_ids}, extra={actual_vendor_ids - vendor_ids}")
-    for item in active + deferred + prohibited:
+    if any(item["source"] != "kepano-obsidian-skills" for item in pilots):
+        raise ValueError("Pilot source is not the pinned Obsidian skill pack")
+    obsidian_ids = {item["id"] for item in pilots}
+    if len(obsidian_ids) != registry["upstreams"]["kepano-obsidian-skills"]["expectedSkillCount"]:
+        raise ValueError("Obsidian pilot inventory differs from pinned selection")
+    actual_obsidian_ids = {
+        path.name for path in (ROOT / "vendor/obsidian").iterdir()
+        if path.is_dir() and (path / "SKILL.md").is_file()
+    }
+    if obsidian_ids != actual_obsidian_ids:
+        raise ValueError(f"Obsidian pilot mismatch: missing={obsidian_ids - actual_obsidian_ids}, extra={actual_obsidian_ids - obsidian_ids}")
+    for item in active + pilots + deferred + prohibited:
         skill_path = ROOT / item["path"]
         if not (skill_path / "SKILL.md").is_file():
             raise ValueError(f"Missing skill entrypoint: {item['path']}")
@@ -43,7 +55,7 @@ def main() -> None:
     registered_native = {item["id"] for item in active if item["source"] == "psdc"}
     if native_ids != registered_native:
         raise ValueError("Native skill and registry entries differ")
-    print(f"Skill registry passed: {len(upstream)} pinned upstream skills, {len(actual_vendor_ids)} vendored, {len(omitted)} not added, {len(native_ids)} PSDC-native")
+    print(f"Skill registry passed: {len(upstream)} Matt Pocock skills, {len(actual_vendor_ids)} vendored, {len(omitted)} not added; {len(obsidian_ids)} Obsidian pilots; {len(native_ids)} PSDC-native")
 
 
 if __name__ == "__main__":

@@ -1,5 +1,10 @@
 # PSDC Agent Skills
 
+For revision-bound code and documentation quality reviews across the ecosystem,
+use [PSDC Engineering Quality](skills/psdc-engineering-quality/SKILL.md) after
+the consuming repository opts in. Its [application scope](docs/governance/SKILL-APPLICATION-SCOPE.md)
+maps every project repository without changing its pinned manifest.
+
 Governed, provenance-pinned skills for agents that work on the Post-Secondary
 Digital Commons (PSDC). This repository is a specification and review toolset;
 it is not evidence that any PSDC runtime service exists.
@@ -8,6 +13,9 @@ it is not evidence that any PSDC runtime service exists.
 
 - `vendor/mattpocock/`: an unmodified, revision-pinned selection from
   [`mattpocock/skills`](https://github.com/mattpocock/skills).
+- `vendor/obsidian/`: two unmodified, revision-pinned format-skill pilots from
+  [`kepano/obsidian-skills`](https://github.com/kepano/obsidian-skills).
+  These are not enabled in consumer manifests; Obsidian remains optional.
 - `skills/`: PSDC-native router and audit skills that add authority, evidence,
   privacy, federation, and readiness rules.
 - `config/skill-registry.yaml`: machine-readable enablement, provenance, and
@@ -19,6 +27,10 @@ it is not evidence that any PSDC runtime service exists.
 - `skills/psdc-upstream-adoption/`: component-level reuse decisions and a
   lightweight implementation-delta check; records use
   `schemas/upstream-adoption-record.schema.json`.
+- `skills/psdc-workspace-health/`: a read-only checkout health report for the
+  workspace command center, documentation checks, and skill-scope drift.
+- `skills/psdc-obsidian-format/`: PSDC-portable Markdown and JSON Canvas
+  guidance over two pinned, unmodified upstream format pilots.
 - `docs/`: scope, threat model, adoption rules, and assessment records.
 - `schemas/`: validation contracts for the registry and assessment results.
 

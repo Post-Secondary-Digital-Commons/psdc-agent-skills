@@ -29,6 +29,9 @@ vendored upstream skills only through the PSDC policy described there. Preserve
 upstream files unchanged; PSDC-specific behavior belongs under `skills/`.
 For repository-area applicability or organization-wide enablement claims, read
 `docs/governance/SKILL-APPLICATION-SCOPE.md` and verify its source snapshot.
+For code or documentation quality reviews, use `psdc-engineering-quality` to
+resolve the standards at the inspected architecture revision; proposed
+standards are review candidates, not accepted authority.
 
 ### Evidence
 

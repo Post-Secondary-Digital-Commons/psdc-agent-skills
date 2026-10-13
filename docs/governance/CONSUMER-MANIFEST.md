@@ -25,6 +25,12 @@ The generated [application-scope map](SKILL-APPLICATION-SCOPE.md) shows
 repository-area recommendations and the exact consumer opt-ins observed at a
 recorded revision. Refresh it after consumer manifests change; it does not
 replace any repository's own manifest or authorize a gated skill.
+The Obsidian format sources remain pilots. Their PSDC wrapper is gated pending
+the proposed adoption record's human review, and no consumer manifest enables it.
+`psdc-engineering-quality` is pack-permitted and scoped across the workspace and
+all cataloged repositories, but requires a separate reviewed manifest update
+per consumer. It reads the standards at the architecture revision actually
+inspected; the proposed engineering standard is advisory until accepted.
 
 ## Validation
 
