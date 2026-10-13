@@ -1,5 +1,11 @@
 schemaVersion: 1
 profiles:
+  - id: workspace
+    repositories: [psdc-workspace]
+    areas: Repository catalog, Platform Home, generated views, Obsidian navigation, documentation links, and evidence projections.
+    trigger: A workspace source, generated map, vault navigation note, or cross-repository health claim changes.
+    skills: [writing-for-agents, research, code-review, psdc-project-assessment, psdc-evidence-audit, psdc-upstream-adoption, psdc-workspace-health]
+    evidenceBoundary: A generated view or valid link does not prove the underlying service exists or a skill ran.
   - id: architecture
     repositories: [psdc-architecture, algonquin-architecture]
     areas: Decisions, contracts, fixtures, roadmaps, and institution policy overlays.
@@ -66,3 +72,41 @@ profiles:
     trigger: An upstream skill, wrapper, registry gate, or consumer contract changes.
     skills: [writing-for-agents, research, code-review, retro, psdc-project-assessment, psdc-evidence-audit, psdc-upstream-adoption]
     evidenceBoundary: Registry and hash checks prove structure and provenance, not agent compliance or product readiness.
+
+# Applicability is a task routing proposal, not a consumer opt-in. "all" means
+# every repository profile above; named profiles narrow ownership. Registry
+# mode and the consumer's pinned manifest remain the activation gates.
+applications:
+  - { id: setup-matt-pocock-skills, profiles: [agent-skills], when: "Design or revise the common issue and domain-document conventions." }
+  - { id: grill-with-docs, profiles: [all], when: "An unresolved human decision must be elicited and recorded in governed documents." }
+  - { id: domain-modeling, profiles: [all], when: "A bounded-context term, invariant, glossary entry, or ADR changes." }
+  - { id: to-spec, profiles: [all], when: "Approved context needs a bounded specification with acceptance criteria." }
+  - { id: to-tickets, profiles: [all], when: "A reviewed specification needs dependency-aware implementation handoffs." }
+  - { id: wayfinder, profiles: [all], when: "A broad effort has unresolved decisions or unclear sequencing." }
+  - { id: research, profiles: [all], when: "A technical, licensing, or protocol claim needs primary-source evidence." }
+  - { id: writing-for-agents, profiles: [all], when: "Agent instructions, skill pointers, or completion criteria change." }
+  - { id: code-review, profiles: [all], when: "A bounded diff or PR needs standards and specification review." }
+  - { id: codebase-design, profiles: [all], when: "An implemented or planned module needs an ownership seam and narrow interface." }
+  - { id: improve-codebase-architecture, profiles: [all], when: "Existing code shows evidenced boundary or dependency problems; propose changes before refactoring." }
+  - { id: pr, profiles: [all], when: "An authorized change is ready for a reviewable pull-request description." }
+  - { id: prototype, profiles: [all], when: "A focused uncertainty can be answered with a disposable synthetic spike." }
+  - { id: retro, profiles: [all], when: "A completed work session needs a bounded process or agent-environment retrospective." }
+  - { id: grill-me, profiles: [all], when: "The user asks to stress-test an idea without immediately changing governed records." }
+  - { id: grilling, profiles: [all], when: "The user requests a staged interview about a design or decision." }
+  - { id: handoff, profiles: [all], when: "Work changes maintainer or agent and exact revisions, evidence, and next actions must transfer." }
+  - { id: teach, profiles: [all], when: "A club member requests a structured learning path for a component." }
+  - { id: to-questionnaire, profiles: [all], when: "An institution, operator, counsel, or other human owner must answer scoped questions." }
+  - { id: wait-what, profiles: [all], when: "A prior explanation needs a simpler, glossary-consistent retelling." }
+  - { id: psdc-project-assessment, profiles: [all], when: "A maturity or readiness claim must be graded against revision-bound evidence." }
+  - { id: psdc-evidence-audit, profiles: [all], when: "A claim needs an artifact, producer, revision, check, scope, and limitation trace." }
+  - { id: psdc-upstream-adoption, profiles: [all], when: "A component or implementation delta needs adopt/adapt/patch/fork/build analysis." }
+  - { id: psdc-workspace-health, profiles: [workspace, agent-skills], when: "The workspace command center, documentation, and skill-scope snapshot need a read-only health report across all checkouts." }
+  - { id: psdc-obsidian-format, profiles: [workspace, agent-skills], when: "A derived workspace Markdown or Canvas view needs PSDC portable-link and authority rules; human adoption gate remains open." }
+  - { id: ask-matt, profiles: [all], when: "A PSDC-safe skill router is accepted; currently gated against unsafe implementation routing." }
+  - { id: triage, profiles: [all], when: "Issue-state rules and tracker mutation authority are accepted; currently gated." }
+  - { id: diagnosing-bugs, profiles: [all], when: "Executable behavior exists and a reproducible failure needs hypothesis-driven diagnosis; currently gated." }
+  - { id: tdd, profiles: [all], when: "An approved implementation slice permits test-first work; currently gated." }
+  - { id: implement, profiles: [all], when: "A future policy change explicitly permits this workflow; currently prohibited." }
+  - { id: implement-spec, profiles: [all], when: "A future policy change explicitly permits specification-wide execution; currently prohibited." }
+  - { id: obsidian-markdown, profiles: [workspace, agent-skills], when: "A reviewed workspace view needs Obsidian Markdown syntax; pilot only, with repository links kept portable." }
+  - { id: json-canvas, profiles: [workspace, agent-skills], when: "A reviewed workspace dependency or authority view needs JSON Canvas syntax; pilot only." }

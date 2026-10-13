@@ -5,6 +5,23 @@
   "registrySha256": "d71a9f8bdfa4758f05d4737b59c541b399bfedb4f478b2b887af957c4dd8b536",
   "repositories": [
     {
+      "id": "psdc-workspace",
+      "path": ".",
+      "revision": "e0e2535c3a03e31c9a85694ea8a1642c26f23de4",
+      "manifestSha256": "505876bce54741617e0cbb9036a6c54a8f1b7420393eb1d939cf4e809fe8d478",
+      "packRevision": "dc7baf75ecadb389b190df4e438008ca9fe0f9f1",
+      "authority": "common",
+      "lifecycle": "specification",
+      "enabledSkills": [
+        "psdc-project-assessment",
+        "psdc-evidence-audit",
+        "domain-modeling",
+        "to-spec",
+        "wayfinder",
+        "writing-for-agents"
+      ]
+    },
+    {
       "id": "psdc-architecture",
       "path": "common/psdc-architecture",
       "revision": "992359c9a2bf8f802f5e6d1368664a68f0431400",
