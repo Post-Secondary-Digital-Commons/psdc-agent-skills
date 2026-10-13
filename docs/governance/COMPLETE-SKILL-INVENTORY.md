@@ -86,6 +86,7 @@ These are **not** part of the 38 upstream count:
 | psdc-project-assessment | Existing; enabled | Scores a bounded, revision-specific architecture or readiness claim against the assessment rubric. | Assess whether VS-01 is merely contracted, structurally validated, implemented or actually running, citing evidence for each state. |
 | psdc-evidence-audit | Existing; enabled | Traces a claim to the cited artifact, commit, check, scope and limitations. | Challenge a dashboard's “deployed” badge when its only evidence is a passing JSON Schema test. |
 | psdc-upstream-adoption | New; enabled | Records whether PSDC should adopt, adapt, patch, fork or build for a component, then checks each implementation delta against that decision. | Compare Akash-derived placement with an adapter and a custom scheduler; record the chosen seam, source revision, license, tests and maintenance owner before importing code. |
+| psdc-engineering-quality | New; pack-enabled, consumer opt-in pending | Reviews code, contracts, infrastructure and docs against the standards at the inspected architecture revision. Proposed rules are advisory until accepted. | Review a compute lease change for contract compatibility, comments explaining generation fencing, replay fixtures, security boundaries, and stated test limitations. |
 
 Before consumer manifests change, review the requested skills against the
 owning repository's lifecycle and authority. Upstream files remain unchanged;

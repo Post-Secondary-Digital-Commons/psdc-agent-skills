@@ -31,6 +31,7 @@ $requiredSkills = @(
     'setup-matt-pocock-skills', 'grill-with-docs', 'domain-modeling', 'to-spec',
     'to-tickets', 'wayfinder', 'research', 'writing-for-agents',
     'psdc-project-assessment', 'psdc-evidence-audit', 'psdc-upstream-adoption',
+    'psdc-engineering-quality',
     'psdc-workspace-health', 'psdc-obsidian-format'
 )
 foreach ($skill in $requiredSkills) {

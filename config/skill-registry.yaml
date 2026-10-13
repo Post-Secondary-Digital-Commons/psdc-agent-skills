@@ -181,6 +181,13 @@ skills:
     phase: all
     purpose: Record reuse-versus-build decisions for every component and implementation delta.
     psdcConstraints: [upstream-provenance, license-gates, sovereign-authority, evidence-boundaries]
+  - id: psdc-engineering-quality
+    source: psdc
+    path: skills/psdc-engineering-quality
+    mode: enabled
+    phase: all
+    purpose: Apply revision-bound documentation and engineering quality gates without treating proposals as accepted rules.
+    psdcConstraints: [authority-order, standards-status, no-readiness-inflation, exact-evidence]
   - id: psdc-workspace-health
     source: psdc
     path: skills/psdc-workspace-health

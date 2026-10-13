@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "catalogRevision": "e0e2535c3a03e31c9a85694ea8a1642c26f23de4",
   "packRevision": "318d204aedf183b63d5b0c1bcf5972ae981d964a",
-  "registrySha256": "d71a9f8bdfa4758f05d4737b59c541b399bfedb4f478b2b887af957c4dd8b536",
+  "registrySha256": "97bf41bd372402fa948e05e266bb8609a2748c73fd172a0671a709a192b3ebba",
   "repositories": [
     {
       "id": "psdc-workspace",

@@ -1,5 +1,10 @@
 # PSDC Agent Skills
 
+For revision-bound code and documentation quality reviews across the ecosystem,
+use [PSDC Engineering Quality](skills/psdc-engineering-quality/SKILL.md) after
+the consuming repository opts in. Its [application scope](docs/governance/SKILL-APPLICATION-SCOPE.md)
+maps every project repository without changing its pinned manifest.
+
 Governed, provenance-pinned skills for agents that work on the Post-Secondary
 Digital Commons (PSDC). This repository is a specification and review toolset;
 it is not evidence that any PSDC runtime service exists.
