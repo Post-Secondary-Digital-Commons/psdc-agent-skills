@@ -1,0 +1,13 @@
+{
+  "items": [
+    {
+      "repository": "psdc-agent-skills",
+      "commit": "318d204aedf183b63d5b0c1bcf5972ae981d964a",
+      "path": "scripts/Validate-Adoption.py",
+      "startLine": 40,
+      "endLine": 55,
+      "text": "    example = {\n        \"schemaVersion\": 1,\n        \"componentId\": \"vs01.lab-worker\",\n        \"repository\": \"psdc-compute\",\n        \"scope\": \"common\",\n        \"status\": \"proposed\",\n        \"decisionOwner\": \"PSDC Compute Fabric Working Group\",\n        \"governingRefs\": [\"ADR-0026\"],\n        \"candidates\": [],\n        \"selection\": {\"mode\": \"adapter\", \"rationale\": \"Exact upstream review remains pending\"},\n        \"upstreamProvides\": [],\n        \"psdcOwns\": [\"institutional admission\"],\n        \"excluded\": [],\n        \"evidence\": [],\n        \"maintenance\": {\"owner\": \"unassigned\", \"updatePlan\": \"pending\", \"replacementTrigger\": \"pending\"},\n        \"openGates\": [\"source review\"],",
+      "sha256": "08df8b39e2f4f206834dac1d9a3305631501b5b6ac36f1f7c5dcdcf475984ef6"
+    }
+  ]
+}

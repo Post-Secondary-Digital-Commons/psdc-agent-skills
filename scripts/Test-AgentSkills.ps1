@@ -56,6 +56,8 @@ python (Join-Path $root 'scripts/Validate-Adoption.py') --self-test
 if ($LASTEXITCODE -ne 0) { throw 'Upstream adoption record self-test failed.' }
 python (Join-Path $root 'scripts/test_validate_consumer.py')
 if ($LASTEXITCODE -ne 0) { throw 'Consumer manifest validation tests failed.' }
+python (Join-Path $root 'scripts/test_triage_local_evidence.py')
+if ($LASTEXITCODE -ne 0) { throw 'Local evidence triage tests failed.' }
 python (Join-Path $root 'scripts/Build-ApplicationScope.py') --check
 if ($LASTEXITCODE -ne 0) { throw 'Skill application scope check failed.' }
 
