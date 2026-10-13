@@ -13,8 +13,8 @@ instructions, and explicit user authority. The [registry](../../config/skill-reg
 sets current pack-wide modes; the [inventory](COMPLETE-SKILL-INVENTORY.md)
 explains every skill. An older consumer pin is **not** validated against newer rules.
 
-Workspace catalog revision: `123cfa62b98b4add00330d7cd1ad260d3eecf517`. Pack revision
-inspected when generated: `d527cbeda07fac579f9088197b71f785f082acc4`. Source manifests and commits
+Workspace catalog revision: `e0e2535c3a03e31c9a85694ea8a1642c26f23de4`. Pack revision
+inspected when generated: `318d204aedf183b63d5b0c1bcf5972ae981d964a`. Source manifests and commits
 are recorded in `config/application-scope-snapshot.json`.
 **21 of 21** consumer pins differ from that pack revision;
 this map does not silently upgrade them.
@@ -59,7 +59,7 @@ this map does not silently upgrade them.
 | `algonquin-mobile` | `6f024b2d2032` | `dc7baf75ecad (older/different)` | `psdc-project-assessment`, `psdc-evidence-audit`, `domain-modeling`, `to-spec`, `writing-for-agents` |
 | `psdc-deployment-template` | `6e1f52a2f4cf` | `dc7baf75ecad (older/different)` | `psdc-project-assessment`, `psdc-evidence-audit`, `to-spec`, `research`, `writing-for-agents` |
 | `algonquin-deployment` | `278377f97ca2` | `dc7baf75ecad (older/different)` | `psdc-project-assessment`, `psdc-evidence-audit`, `domain-modeling`, `to-spec`, `writing-for-agents` |
-| `psdc-agent-skills` | `d527cbeda07f` | `45386cb2f1cc (older/different)` | `psdc-project-assessment`, `psdc-evidence-audit`, `domain-modeling`, `writing-for-agents` |
+| `psdc-agent-skills` | `318d204aedf1` | `45386cb2f1cc (older/different)` | `psdc-project-assessment`, `psdc-evidence-audit`, `domain-modeling`, `writing-for-agents` |
 
 ## Task selection and completion
 
@@ -80,6 +80,9 @@ repositories' `origin/main` refs:
 python scripts/Build-ApplicationScope.py --refresh --workspace-root C:\path\to\psdc-workspace
 python scripts/Build-ApplicationScope.py --check --workspace-root C:\path\to\psdc-workspace
 ```
+
+When the workspace source is a separate worktree, add
+`--checkout-root C:\path\to\product-checkouts` to point at sibling repositories.
 
 `--check` without a workspace verifies the committed snapshot against the registry
 and generated document. With a workspace it additionally detects source drift.

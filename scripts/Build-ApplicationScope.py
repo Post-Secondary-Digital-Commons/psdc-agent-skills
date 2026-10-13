@@ -58,7 +58,8 @@ def read_policy() -> tuple[dict, dict]:
     return scope, registry
 
 
-def snapshot_from_workspace(workspace: Path, scope: dict, pack_revision: str) -> dict:
+def snapshot_from_workspace(workspace: Path, scope: dict, pack_revision: str,
+                            checkout_root: Path | None = None) -> dict:
     catalog_revision = git(workspace, "rev-parse", "origin/main").strip()
     catalog = yaml.safe_load(git(workspace, "show", "origin/main:repos.yaml"))
     if catalog.get("schemaVersion") != 3:
@@ -73,10 +74,11 @@ def snapshot_from_workspace(workspace: Path, scope: dict, pack_revision: str) ->
     if expected != actual:
         raise ValueError(f"Scope/catalog mismatch: missing={sorted(actual - expected)}, extra={sorted(expected - actual)}")
     records = []
+    checkout_base = checkout_root or workspace
     for entry in entries:
-        checkout = workspace / entry["path"]
-        if not checkout.resolve().is_relative_to(workspace.resolve()):
-            raise ValueError(f"Catalog path leaves workspace: {entry['path']}")
+        checkout = checkout_base / entry["path"]
+        if not checkout.resolve().is_relative_to(checkout_base.resolve()):
+            raise ValueError(f"Catalog path leaves checkout root: {entry['path']}")
         revision = git(checkout, "rev-parse", "origin/main").strip()
         raw = git(checkout, "show", "origin/main:.psdc/agent-skills.yaml")
         manifest = yaml.safe_load(raw)
@@ -232,6 +234,9 @@ def render(snapshot: dict, scope: dict) -> str:
         "python scripts/Build-ApplicationScope.py --refresh --workspace-root C:\\path\\to\\psdc-workspace",
         "python scripts/Build-ApplicationScope.py --check --workspace-root C:\\path\\to\\psdc-workspace",
         "```", "",
+        "When the workspace source is a separate worktree, add",
+        "`--checkout-root C:\\path\\to\\product-checkouts` to point at sibling repositories.",
+        "",
         "`--check` without a workspace verifies the committed snapshot against the registry",
         "and generated document. With a workspace it additionally detects source drift.",
         "A new skill-pack commit alone is ignored when its consumer manifest digest is unchanged;",
@@ -244,6 +249,8 @@ def render(snapshot: dict, scope: dict) -> str:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--workspace-root", type=Path)
+    parser.add_argument("--checkout-root", type=Path,
+                        help="Parent of product checkouts when separate from the workspace source")
     parser.add_argument("--refresh", action="store_true")
     parser.add_argument("--check", action="store_true")
     parser.add_argument("--self-test", action="store_true")
@@ -259,7 +266,8 @@ def main() -> None:
         if not args.workspace_root:
             parser.error("--refresh requires --workspace-root")
         snapshot = snapshot_from_workspace(args.workspace_root.resolve(), scope,
-                                           git(ROOT, "rev-parse", "origin/main").strip())
+                                           git(ROOT, "rev-parse", "origin/main").strip(),
+                                           args.checkout_root.resolve() if args.checkout_root else None)
         validate_snapshot(snapshot, scope, registry)
         SNAPSHOT.write_text(json.dumps(snapshot, indent=2) + "\n", encoding="utf-8")
         DOCUMENT.write_text(render(snapshot, scope), encoding="utf-8")
@@ -268,7 +276,8 @@ def main() -> None:
         validate_snapshot(snapshot, scope, registry)
         if args.workspace_root:
             current = snapshot_from_workspace(args.workspace_root.resolve(), scope,
-                                              snapshot["packRevision"])
+                                              snapshot["packRevision"],
+                                              args.checkout_root.resolve() if args.checkout_root else None)
             if not same_sources(current, snapshot):
                 raise ValueError("Workspace or consumer manifests differ from committed snapshot; refresh deliberately")
         if DOCUMENT.read_text(encoding="utf-8").replace("\r\n", "\n") != render(snapshot, scope):
